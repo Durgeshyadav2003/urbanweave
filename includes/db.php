@@ -1,17 +1,28 @@
 <?php
 
-$host = getenv("MYSQLHOST") ?: "localhost";
-$username = getenv("MYSQLUSER") ?: "root";
-$password = getenv("MYSQLPASSWORD") ?: "";
-$database = getenv("MYSQLDATABASE") ?: "urbanweave";
-$port = intval(getenv("MYSQLPORT") ?: 3306);
+$host = getenv("MYSQLHOST");
+$username = getenv("MYSQLUSER");
+$password = getenv("MYSQLPASSWORD");
+$database = getenv("MYSQLDATABASE");
+$port = getenv("MYSQLPORT");
+
+echo "<pre>";
+echo "HOST = " . ($host ?: "EMPTY") . "\n";
+echo "USER = " . ($username ?: "EMPTY") . "\n";
+echo "DATABASE = " . ($database ?: "EMPTY") . "\n";
+echo "PORT = " . ($port ?: "EMPTY") . "\n";
+echo "</pre>";
+
+if (!$host || !$username || !$database || !$port) {
+    die("Railway MySQL environment variables are missing.");
+}
 
 $conn = new mysqli(
     $host,
     $username,
     $password,
     $database,
-    $port
+    intval($port)
 );
 
 if ($conn->connect_error) {
