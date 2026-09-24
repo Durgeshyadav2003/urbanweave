@@ -1,11 +1,11 @@
-FROM php:8.4-apache
+FROM php:8.4-cli
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-COPY . /var/www/html/
+WORKDIR /app
 
-RUN chown -R www-data:www-data /var/www/html
+COPY . .
 
-EXPOSE 80
+EXPOSE 8080
 
-CMD ["apache2-foreground"]
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t /app"]
